@@ -8,7 +8,7 @@
     "theme_color": "#1a237e",
     "icons": [
         {
-            "src": "https://goias.gov.br/policiacientifica/wp-content/uploads/sites/63/favicon.png",
+            "src": "https://supervisaopci.github.io/agg/fav2.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any maskable"
