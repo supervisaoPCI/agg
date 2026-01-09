@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a237e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Servidores PCI - Polícia Científica GO</title>
+    <link rel="manifest" href="manifest-servidores.json">
+    <link rel="icon" href="https://goias.gov.br/policiacientifica/wp-content/uploads/sites/63/favicon.png"
+        type="image/png">
+    <link rel="apple-touch-icon" href="https://goias.gov.br/policiacientifica/wp-content/uploads/sites/63/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a237e;
+            --primary-light: #3949ab;
+            --primary-dark: #0d1642;
+            --accent: #00bcd4;
+            --accent-light: #4dd0e1;
+            --surface: #ffffff;
+            --surface-alt: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+        }
+
+        .app {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background: var(--surface);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 16px 20px;
+            padding-top: calc(16px + env(safe-area-inset-top, 0));
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .header-icon img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .header-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+        }
+
+        .header-subtitle {
+            font-size: 12px;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        /* Nav */
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-sm);
+            color: white;
+            text-decoration: none;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .nav-link:active {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .nav-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Search */
+        .search-container {
+            padding: 16px 20px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--surface-alt);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 0 16px;
+            transition: all 0.2s ease;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--primary);
+            background: var(--surface);
+            box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+        }
+
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 14px 12px;
+            font-size: 16px;
+            font-family: inherit;
+            background: transparent;
+            color: var(--text-primary);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-clear {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: var(--border);
+            border-radius: 50%;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .search-clear.visible {
+            display: flex;
+        }
+
+        .search-clear:active {
+            background: var(--text-muted);
+            color: white;
+        }
+
+        /* Results info */
+        .results-info {
+            padding: 10px 20px;
+            background: var(--surface-alt);
+            font-size: 13px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .results-count {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Lista */
+        .list-container {
+            flex: 1;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .list {
+            padding: 8px 12px;
+            padding-bottom: calc(24px + env(safe-area-inset-bottom, 0));
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-header {
+            padding: 14px 16px;
+            background: linear-gradient(135deg, var(--surface-alt) 0%, var(--surface) 100%);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .card-name {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .card-name svg {
+            width: 18px;
+            height: 18px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .status-badge {
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            flex-shrink: 0;
+        }
+
+        .status-ativo {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-outro {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .card-body {
+            padding: 12px 16px;
+        }
+
+        .card-cargo {
+            margin-bottom: 14px;
+            padding-bottom: 14px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .cargo-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .cargo-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            line-height: 1.4;
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--surface-alt);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .info-icon svg {
+            width: 16px;
+            height: 16px;
+            color: var(--primary);
+        }
+
+        .info-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+
+        .info-action {
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--border);
+            background: var(--surface-alt);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            opacity: 0.6;
+        }
+
+        .info-action:active {
+            transform: scale(0.9);
+            background: var(--border);
+            opacity: 1;
+        }
+
+        .info-action svg {
+            width: 14px;
+            height: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--surface-alt);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .empty-icon svg {
+            width: 40px;
+            height: 40px;
+            color: var(--text-muted);
+        }
+
+        .empty-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .empty-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            max-width: 280px;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: calc(20px + env(safe-area-inset-bottom, 0));
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            z-index: 100;
+            opacity: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Error State */
+        .error-state {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .error-icon {
+            width: 64px;
+            height: 64px;
+            background: #fef2f2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .error-icon svg {
+            width: 32px;
+            height: 32px;
+            color: #ef4444;
+        }
+
+        .error-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .error-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .retry-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .retry-btn:active {
+            transform: scale(0.95);
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-icon">
+                <img src="https://goias.gov.br/policiacientifica/wp-content/uploads/sites/63/favicon.png" alt="PCI">
+            </div>
+            <div class="header-content">
+                <h1 class="header-title">Servidores Policiais</h1>
+                <p class="header-subtitle">Assessoria-Geral de Gabinete – PCIGO</p>
+            </div>
+        </header>
+
+        <!-- Search -->
+        <div class="search-container">
+            <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="M21 21l-4.35-4.35" />
+                </svg>
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar servidor por nome..."
+                    autocomplete="off">
+                <button class="search-clear" id="clearBtn">×</button>
+            </div>
+        </div>
+
+        <!-- Results Info -->
+        <div class="results-info" id="resultsInfo">
+            <span><span class="results-count" id="resultsCount">0</span> servidores encontrados</span>
+            <span id="refMes"></span>
+        </div>
+
+        <!-- Lista -->
+        <div class="list-container">
+            <div class="list" id="serverList">
+                <div class="loading" id="loadingState">
+                    <div class="loading-spinner"></div>
+                    <span class="loading-text">Carregando servidores...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast -->
+        <div class="toast" id="toast">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12" />
+            </svg>
+            <span id="toastText">Copiado!</span>
+        </div>
+    </div>
+
+    <script>
+        // ===================================================================
+        // CONFIGURAÇÃO
+        // ===================================================================
+        const CONFIG = {
+            csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQEjgGJbp06BSNeR2lh3ENojqcFjclldlpPWj85uS4bDStrP1Dp1elFfn1OV4n4NydrWN-pm_kgGuSe/pub?gid=469789154&single=true&output=csv',
+            cacheKey: 'pci_servidores_cache',
+            cacheExpiry: 3600000 // 1 hora em ms
+        };
+
+        // ===================================================================
+        // ESTADO
+        // ===================================================================
+        let allServers = [];
+        let filteredServers = [];
+        let refMesValue = '';
+
+        // ===================================================================
+        // ELEMENTOS DOM
+        // ===================================================================
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+        const serverList = document.getElementById('serverList');
+        const resultsCount = document.getElementById('resultsCount');
+        const loadingState = document.getElementById('loadingState');
+        const toast = document.getElementById('toast');
+        const toastText = document.getElementById('toastText');
+        const refMes = document.getElementById('refMes');
+
+        // ===================================================================
+        // UTILITÁRIOS
+        // ===================================================================
+        function removeDiacritics(str) {
+            if (!str) return '';
+            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        }
+
+        function debounce(fn, wait) {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => fn.apply(this, args), wait);
+            };
+        }
+
+        function showToast(message) {
+            toastText.textContent = message;
+            toast.classList.add('visible');
+            setTimeout(() => toast.classList.remove('visible'), 2000);
+        }
+
+        async function copyToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                showToast('Copiado!');
+            } catch {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.cssText = 'position:fixed;left:-9999px';
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                ta.remove();
+                showToast('Copiado!');
+            }
+        }
+
+        function formatNameTitleCase(name) {
+            if (!name) return '';
+            const ignore = ['de', 'da', 'do', 'dos', 'das', 'e'];
+            return name.toLowerCase().split(/\s+/).map((w, i) => {
+                if (!w) return '';
+                return (i > 0 && ignore.includes(w)) ? w : w.charAt(0).toUpperCase() + w.slice(1);
+            }).join(' ');
+        }
+
+        // ===================================================================
+        // NORMALIZAÇÃO DE CARGO E GÊNERO
+        // ===================================================================
+        const CARGO_NORMALIZATION = {
+            'auxiliar de autópsia': 'Aux. de Autópsia',
+            'auxiliar de laboratório': 'Aux. de Laboratório',
+            'auxiliar de laboratório criminal': 'Aux. de Laboratório',
+            'desenhista criminalístico': 'Desenhista Criminalístico',
+            'fotógrafo criminalístico': 'Fotógrafo Criminalístico',
+            'médico legista': 'Médico Legista',
+            'odontolegista': 'Odontolegista',
+            'perito criminal': 'Perito Criminal'
+        };
+
+        const SPECIFIC_LOC_MAP = {
+            'GERÊNCIA DE CRIMINALÍSTICA': 'ICLR',
+            'GERÊNCIA DE MEDICINA LEGAL': 'IMLAT',
+            'SUPERINTENDÊNCIA DE POLÍCIA TÉCNICO-CIENTÍFICA': 'Superintendência'
+        };
+
+        const FEMALE_EXCEPTIONS = new Set([
+            'beatriz', 'raquel', 'ingrid', 'ester', 'lais', 'liz', 'luz', 'kelen', 'ellen', 'simone',
+            'denise', 'janete', 'elis', 'thais', 'isabel', 'mabel', 'rute', 'solange', 'mirian', 'lilian',
+            'vivian', 'karen', 'carmen', 'ines', 'alice', 'clarice', 'janice', 'eunice', 'joyce', 'eliete',
+            'aline', 'andriele', 'gisele', 'michele', 'michelle', 'cristiane', 'viviane', 'eliane', 'ariane',
+            'rosane', 'rose', 'ivone', 'ione', 'edilene', 'sirlene', 'cibele', 'marile',
+            'glauce', 'grace', 'leide', 'cleide', 'neide', 'anniely', 'daiane', 'daline', 'daniele',
+            'dayane', 'deisiane', 'elaine', 'emanuelle', 'emmeline', 'euneide', 'evlyn', 'franciane', 'franciele', 'francis', 'francyelle',
+            'gizelle', 'grasielly', 'gyzele', 'hesther', 'jane', 'joicy', 'karinie', 'karinna', 'katiany',
+            'kelly', 'kely', 'layanny', 'lidiane', 'liliane', 'lohane', 'lorine', 'lorraine',
+            'luciene', 'maiulle', 'marise', 'marjory', 'marlene', 'marli', 'mary', 'meiriane', 'milenne',
+            'monique', 'nycolle', 'rachel', 'raiane', 'ranielle', 'rejane', 'shirley', 'sirlaine',
+            'stephanie', 'stephanny', 'suzeth', 'thaisa', 'thatianne', 'thatiany', 'thatyane'
+        ]);
+
+        const FORCE_FEMALE_FULL = ['flavio molinari'];
+        const FORCE_MALE_FULL = ['kelly bruno'];
+
+        function adjustGender(cargo, name) {
+            if (!name || !cargo) return cargo;
+            const fullNameClean = removeDiacritics(name.toLowerCase());
+            const firstName = fullNameClean.split(' ')[0];
+
+            if (FORCE_MALE_FULL.some(n => fullNameClean.includes(n))) return cargo;
+            if (FORCE_FEMALE_FULL.some(n => fullNameClean.includes(n))) {
+                return cargo.replace('Perito', 'Perita').replace('Médico', 'Médica').replace('Fotógrafo', 'Fotógrafa');
+            }
+
+            let isFemale = firstName.endsWith('a');
+            if (FEMALE_EXCEPTIONS.has(firstName)) isFemale = true;
+
+            if (isFemale) {
+                return cargo.replace('Perito', 'Perita').replace('Médico', 'Médica').replace('Fotógrafo', 'Fotógrafa');
+            }
+            return cargo;
+        }
+
+        function abbreviateLocation(fullLoc) {
+            if (!fullLoc) return '';
+            const clean = fullLoc.trim();
+            const upper = clean.toUpperCase();
+            if (SPECIFIC_LOC_MAP[upper]) return SPECIFIC_LOC_MAP[upper];
+            const match = clean.match(/^(\d+ª)\s+COORDENAÇÃO\s+REGIONAL\s+DE\s+POLÍCIA\s+TÉCNICO[- ]?CIENTÍFICA\s+(?:DE\s+|-\s+)?(.*)$/i);
+            if (match) {
+                const num = match[1];
+                let city = match[2].replace(/^[-\s]+/, '');
+                city = formatNameTitleCase(city);
+                return `${num} CRPTC – ${city}`;
+            }
+            const formatted = formatNameTitleCase(clean);
+            return formatted.length > 40 ? formatted.substring(0, 37) + '...' : formatted;
+        }
+
+        function formatClass(cls) {
+            if (!cls) return '';
+            const clean = cls.trim();
+            if (clean.toLowerCase().startsWith('esp')) return 'Classe Especial';
+            const firstDigit = clean.charAt(0);
+            if (['1', '2', '3'].includes(firstDigit)) return `${firstDigit}ª Classe`;
+            return clean;
+        }
+
+        function formatCPF(raw) {
+            if (!raw) return '';
+            const digits = raw.replace(/\D/g, '');
+            if (digits.length >= 6) {
+                const part1 = digits.substring(0, 3);
+                const part2 = digits.substring(3, 6);
+                return `XXX-${part1}.${part2}-XX`;
+            }
+            return raw;
+        }
+
+        // ===================================================================
+        // PARSE CSV
+        // ===================================================================
+        function parseCSV(text) {
+            const lines = text.split(/\r?\n/);
+            const servers = [];
+
+            // Get reference month from first data row
+            if (lines.length > 1) {
+                const firstRow = lines[1].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                if (firstRow[0]) refMesValue = firstRow[0].replace(/"/g, '').trim();
+            }
+
+            for (let i = 1; i < lines.length; i++) {
+                const row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                if (row.length < 7) continue;
+
+                const rawLoc = (row[1] || '').replace(/"/g, '').trim();
+                const rawCPF = (row[2] || '').replace(/"/g, '').trim();
+                const rawName = (row[3] || '').replace(/"/g, '').trim();
+                const rawCargo = (row[4] || '').replace(/"/g, '').trim();
+                const rawClass = (row[5] || '').replace(/"/g, '').trim();
+                const rawSit = (row[6] || '').replace(/"/g, '').trim();
+
+                if (!rawName) continue;
+
+                let cargoBase = rawCargo.split('-')[0].trim();
+                let cargoKey = cargoBase.toLowerCase();
+                let cargoFinal = CARGO_NORMALIZATION[cargoKey] || cargoBase;
+                let classeFinal = formatClass(rawClass);
+                let nomeFinal = formatNameTitleCase(rawName);
+                let cpfFormatted = formatCPF(rawCPF);
+                let locAbbr = abbreviateLocation(rawLoc);
+
+                cargoFinal = adjustGender(cargoFinal, nomeFinal);
+                let fullCargo = `${cargoFinal} de ${classeFinal}`;
+
+                servers.push({
+                    nome: nomeFinal,
+                    cargo: fullCargo,
+                    lotacao: locAbbr,
+                    situacao: rawSit,
+                    cpf: cpfFormatted,
+                    searchText: removeDiacritics(rawName)
+                });
+            }
+
+            return servers;
+        }
+
+        // ===================================================================
+        // CACHE
+        // ===================================================================
+        function getCachedData() {
+            try {
+                const cached = localStorage.getItem(CONFIG.cacheKey);
+                if (!cached) return null;
+
+                const data = JSON.parse(cached);
+                const now = Date.now();
+
+                if (now - data.timestamp > CONFIG.cacheExpiry) {
+                    localStorage.removeItem(CONFIG.cacheKey);
+                    return null;
+                }
+
+                return data;
+            } catch {
+                return null;
+            }
+        }
+
+        function setCachedData(servers, refMonth) {
+            try {
+                localStorage.setItem(CONFIG.cacheKey, JSON.stringify({
+                    servers,
+                    refMonth,
+                    timestamp: Date.now()
+                }));
+            } catch {
+                // Ignore cache errors
+            }
+        }
+
+        // ===================================================================
+        // CARREGAR DADOS
+        // ===================================================================
+        async function loadData() {
+            const cached = getCachedData();
+            if (cached) {
+                allServers = cached.servers;
+                refMesValue = cached.refMonth || '';
+                filteredServers = allServers;
+                renderList();
+                refMes.textContent = refMesValue ? `Ref: ${refMesValue}` : '';
+
+                fetchFreshData(true);
+                return;
+            }
+
+            await fetchFreshData(false);
+        }
+
+        async function fetchFreshData(silent = false) {
+            if (!silent) {
+                serverList.innerHTML = `
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <span class="loading-text">Carregando servidores...</span>
+                    </div>
+                `;
+            }
+
+            try {
+                const response = await fetch(CONFIG.csvUrl);
+                if (!response.ok) throw new Error('Erro ao carregar');
+
+                const text = await response.text();
+                allServers = parseCSV(text);
+                filteredServers = allServers;
+
+                setCachedData(allServers, refMesValue);
+                refMes.textContent = refMesValue ? `Ref: transparencia.go.gov.br` : '';
+
+                if (!silent) {
+                    renderList();
+                }
+            } catch (error) {
+                if (!silent) {
+                    renderError();
+                }
+            }
+        }
+
+        function renderError() {
+            serverList.innerHTML = `
+                <div class="error-state">
+                    <div class="error-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                    </div>
+                    <div class="error-title">Erro ao carregar dados</div>
+                    <p class="error-text">Verifique sua conexão e tente novamente.</p>
+                    <button class="retry-btn" onclick="loadData()">Tentar novamente</button>
+                </div>
+            `;
+            resultsCount.textContent = '0';
+        }
+
+        // ===================================================================
+        // RENDERIZAÇÃO
+        // ===================================================================
+        function renderList() {
+            if (filteredServers.length === 0) {
+                serverList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="M21 21l-4.35-4.35"/>
+                            </svg>
+                        </div>
+                        <div class="empty-title">Nenhum servidor encontrado</div>
+                        <p class="empty-text">Tente buscar por outro termo ou verifique a ortografia.</p>
+                    </div>
+                `;
+                resultsCount.textContent = '0';
+                return;
+            }
+
+            resultsCount.textContent = filteredServers.length;
+
+            const html = filteredServers.map(server => {
+                const statusClass = server.situacao.toLowerCase() === 'ativo' ? 'status-ativo' : 'status-outro';
+                return `
+                <div class="card" data-server='${JSON.stringify(server).replace(/'/g, "&#39;")}'>
+                    <div class="card-header">
+                        <div class="card-name">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            ${server.nome}
+                        </div>
+                        <span class="status-badge ${statusClass}">${server.situacao}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-cargo">
+                            <div class="cargo-label">Cargo</div>
+                            <span class="cargo-name">${server.cargo}</span>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-row">
+                                <div class="info-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                        <line x1="16" y1="2" x2="16" y2="6"/>
+                                        <line x1="8" y1="2" x2="8" y2="6"/>
+                                        <line x1="3" y1="10" x2="21" y2="10"/>
+                                    </svg>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">CPF (parcial)</div>
+                                    <div class="info-value">${server.cpf || 'Não informado'}</div>
+                                </div>
+                                <button class="info-action" onclick="event.stopPropagation(); copyToClipboard('${server.cpf}');" title="Copiar CPF">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                        <circle cx="12" cy="10" r="3"/>
+                                    </svg>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">Lotação</div>
+                                    <div class="info-value">${server.lotacao || 'Não informado'}</div>
+                                </div>
+                                <button class="info-action" onclick="event.stopPropagation(); copyToClipboard('${server.lotacao}');" title="Copiar Lotação">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }).join('');
+
+            serverList.innerHTML = html;
+
+            // Listener para copiar card inteiro
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const server = JSON.parse(card.dataset.server);
+                    const text = `*${server.nome}*\nCargo: ${server.cargo}\nCPF: ${server.cpf}\nLotação: ${server.lotacao}\nSituação: ${server.situacao}`;
+                    copyToClipboard(text);
+                });
+            });
+        }
+
+        // ===================================================================
+        // BUSCA
+        // ===================================================================
+        function filterServers(query) {
+            const searchTerm = removeDiacritics(query);
+
+            if (!searchTerm) {
+                filteredServers = allServers;
+            } else {
+                filteredServers = allServers.filter(server =>
+                    server.searchText.includes(searchTerm)
+                );
+            }
+
+            renderList();
+        }
+
+        // ===================================================================
+        // EVENT LISTENERS
+        // ===================================================================
+        const debouncedFilter = debounce(filterServers, 150);
+
+        searchInput.addEventListener('input', (e) => {
+            const value = e.target.value;
+            clearBtn.classList.toggle('visible', value.length > 0);
+            debouncedFilter(value);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            clearBtn.classList.remove('visible');
+            filterServers('');
+            searchInput.focus();
+        });
+
+        // Enter para esconder teclado
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchInput.blur();
+            }
+        });
+
+        // ===================================================================
+        // INICIALIZAÇÃO
+        // ===================================================================
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+
+</html>
